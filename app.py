@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     # Returning a dictionary automatically converts it to JSON data
-    return {"message": "Welcome to the CombatCompute API!"}
+    return {"message": "Welcome to the Illithid Fight Club"}
 
 # This ensures the server only runs if we execute this file directly
 if __name__ == "__main__":

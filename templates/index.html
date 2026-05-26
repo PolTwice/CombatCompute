@@ -6,11 +6,12 @@
     <title>Illithid Fight Club</title>
     <style>
 
-        .container{
-            gap: 2rem;
+        form{
+            display: flex;
+            flex-direction: column;
         }
 
-        .form-group{
+        .form-group > div{
             display: flex;
             flex-direction: row;
             gap: 1rem;
@@ -20,8 +21,8 @@
         .player, .level{
             display: flex;
             flex-direction: column;
-            
         }
+
         .player label, .level label{
             text-align: center;
         }
@@ -39,6 +40,7 @@
             flex-direction: column;
             gap: 1rem;
         }
+
     </style>
 </head>
 <body>
@@ -46,6 +48,7 @@
 <div class="container">
     <h2>Illithid Fight Club</h2>
     
+    <form action="/" method="POST">
     <!-- enter character info -->
     <div id="character-info">
         <div class="form-group">
@@ -78,63 +81,84 @@
     <div id="monster-info">
 
         <!-- encounter difficulty -->
-        
-        <label for="encounter-difficulty">Encounter Difficulty</label>
-        <select id="encounter-difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-            <option value="deadly">Deadly</option>
-        </select>
+        <div>
+            <label for="encounter-difficulty">Encounter Difficulty</label>
+            <select id="encounter-difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+                <option value="deadly">Deadly</option>
+            </select>
+        </div>
 
         <!-- encounter type -->
-        <label for="encounter-type">Encounter Type</label>
-        <select id="encounter-difficulty">
-            <option value="boss">Boss</option>
-            <option value="bossplus">Boss + Minions</option>
-            <option value="duo">Duo of Monsters</option>
-            <option value="trio">Trio of Monsters</option>
-            <option value="horde">Horde</option>
-        </select>
+         
+        <div>
+            <label for="encounter-type">Encounter Type</label>
+            <select id="encounter-difficulty">
+                <option value="boss">Boss</option>
+                <option value="bossplus">Boss + Minions</option>
+                <option value="duo">Duo of Monsters</option>
+                <option value="trio">Trio of Monsters</option>
+                <option value="horde">Horde</option>
+            </select>
+        </div>
 
         <!-- alignment -->
-        <label for="monster-alignment">Monster Alignment</label>
-        <select id="monster-alignment">
-            <option value="any">Any</option>
-            <option value="lawgood">Lawful Good</option>
-            <option value="neutgood">Nuetral Good</option>
-            <option value="chaosgood">Chaotic Good</option>
-            <option value="lawneut">Lawful Neutral</option>
-            <option value="trueneut">True Neutral</option>
-            <option value="chaosneut">Chaotic Neutral</option>
-            <option value="lawevil">Lawful Evil</option>
-            <option value="neutevil">Neutral Evil</option>
-            <option value="chaosevil">Chatoic Neutral</option>
-        </select>
+        <div>
+            <label for="monster-alignment">Monster Alignment</label>
+            <select id="monster-alignment">
+                <option value="any">Any</option>
+                <option value="lawgood">Lawful Good</option>
+                <option value="neutgood">Nuetral Good</option>
+                <option value="chaosgood">Chaotic Good</option>
+                <option value="lawneut">Lawful Neutral</option>
+                <option value="trueneut">True Neutral</option>
+                <option value="chaosneut">Chaotic Neutral</option>
+                <option value="lawevil">Lawful Evil</option>
+                <option value="neutevil">Neutral Evil</option>
+                <option value="chaosevil">Chatoic Neutral</option>
+            </select>
+        </div>
 
 
         <!-- Type of monsters -->
-        <label for="monster-type">Type of Monster</label>
-        <select id="monster-type">
-            <option value="any">Any</option>
-            <option value="aberration">Abberation</option>
-            <option value="beast">Beast</option>
-            <option value="celestial">Celestial</option>
-            <option value="construct">Construct</option>
-            <option value="dragon">Dragon</option>
-            <option value="elemental">Elemental</option>
-            <option value="fey">Fey</option>
-            <option value="fiend">Fiend</option>
-            <option value="humanoid">Humanoid</option>
-            <option value="monstrosity">Monstrosity</option>
-            <option value="ooze">Ooze</option>
-            <option value="plant">Plant</option>
-            <option value="undead">Undead</option>
-        </select>
+        <div>
+            <label for="monster-type">Type of Monster</label>
+            <select id="monster-type">
+                <option value="any">Any</option>
+                <option value="aberration">Abberation</option>
+                <option value="beast">Beast</option>
+                <option value="celestial">Celestial</option>
+                <option value="construct">Construct</option>
+                <option value="dragon">Dragon</option>
+                <option value="elemental">Elemental</option>
+                <option value="fey">Fey</option>
+                <option value="fiend">Fiend</option>
+                <option value="humanoid">Humanoid</option>
+                <option value="monstrosity">Monstrosity</option>
+                <option value="ooze">Ooze</option>
+                <option value="plant">Plant</option>
+                <option value="undead">Undead</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="encounter-environment">Encounter Environment</label>
+            <input type="text" id="environment">
+        </div>
+
+        <div>
+            <label for="encounter-context">Additional Context</label>
+            <p>This information will be fed to the AI to help fit your encounter to your situation</p>
+            <input type="text" id="encounter-context">
+        </div>
+
+
     </div>
 
-    <button onclick="submitParty()">Submit Party</button>
-
+    <input type="submit" value="Submit Encounter">
+    </form>
 </div>
 
 <script>
@@ -157,14 +181,14 @@
     }
 
     function submitParty() {
-        // 1. Grab all the form-group rows
+        // Grab all the form-group rows
         const groups = document.querySelectorAll('.form-group');
         
-        // 2. Create an array to store our structured data objects
+        // Create an array to store our structured data objects
         let partyData = [];
         let summary = "Illithid Fight Club Roster:\n\n";
 
-        // 3. Loop through each row to grab its specific inputs
+        // Loop through each row to grab its specific inputs
         groups.forEach((group, index) => {
             // Find the specific inputs inside THIS row
             // We use querySelector instead of IDs because IDs are no longer unique when cloned
@@ -185,7 +209,7 @@
             summary += `Group ${index + 1}: ${playerCount} Players at Level ${level}\n`;
         });
         
-        // 4. Do whatever you want with the data! 
+        // Do whatever you want with the data! 
         // You can alert it, log it to the console, or send it to a server.
         alert(summary);
         console.log("Full Party Data Array:", partyData);
