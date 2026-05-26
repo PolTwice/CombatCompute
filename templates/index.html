@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illithid Fight Club</title>
+    <style>
+
+        .container{
+            gap: 2rem;
+        }
+
+        .form-group{
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .player, .level{
+            display: flex;
+            flex-direction: column;
+            
+        }
+        .player label, .level label{
+            text-align: center;
+        }
+
+        .form-group p{
+            color: grey
+        }
+        
+        .hidden{
+            display: none;
+        }
+
+        #monster-info{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Illithid Fight Club</h2>
+    
+    <!-- enter character info -->
+    <div id="character-info">
+        <div class="form-group">
+            <div class="player">
+                <label for="player-count">Players</label>
+                <input 
+                    required
+                    type="number" 
+                    id="player-count" 
+                    min="0" 
+                    max="20" 
+                >
+            </div>
+            <p>x</p>
+            <div class="level">
+                <label for ="levels">Level</label>
+                <input
+                    required
+                    type="number"
+                    id="levels"
+                    min="1"
+                    max="20"
+            >
+            </div>            
+        </div>
+    </div>
+
+    <!-- enter party info -->
+    <button onclick="addGroup()">Add another group</button>
+    <div id="monster-info">
+
+        <!-- encounter difficulty -->
+        
+        <label for="encounter-difficulty">Encounter Difficulty</label>
+        <select id="encounter-difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+            <option value="deadly">Deadly</option>
+        </select>
+
+        <!-- encounter type -->
+        <label for="encounter-type">Encounter Type</label>
+        <select id="encounter-difficulty">
+            <option value="boss">Boss</option>
+            <option value="bossplus">Boss + Minions</option>
+            <option value="duo">Duo of Monsters</option>
+            <option value="trio">Trio of Monsters</option>
+            <option value="horde">Horde</option>
+        </select>
+
+        <!-- alignment -->
+        <label for="monster-alignment">Monster Alignment</label>
+        <select id="monster-alignment">
+            <option value="any">Any</option>
+            <option value="lawgood">Lawful Good</option>
+            <option value="neutgood">Nuetral Good</option>
+            <option value="chaosgood">Chaotic Good</option>
+            <option value="lawneut">Lawful Neutral</option>
+            <option value="trueneut">True Neutral</option>
+            <option value="chaosneut">Chaotic Neutral</option>
+            <option value="lawevil">Lawful Evil</option>
+            <option value="neutevil">Neutral Evil</option>
+            <option value="chaosevil">Chatoic Neutral</option>
+        </select>
+
+
+        <!-- Type of monsters -->
+        <label for="monster-type">Type of Monster</label>
+        <select id="monster-type">
+            <option value="any">Any</option>
+            <option value="aberration">Abberation</option>
+            <option value="beast">Beast</option>
+            <option value="celestial">Celestial</option>
+            <option value="construct">Construct</option>
+            <option value="dragon">Dragon</option>
+            <option value="elemental">Elemental</option>
+            <option value="fey">Fey</option>
+            <option value="fiend">Fiend</option>
+            <option value="humanoid">Humanoid</option>
+            <option value="monstrosity">Monstrosity</option>
+            <option value="ooze">Ooze</option>
+            <option value="plant">Plant</option>
+            <option value="undead">Undead</option>
+        </select>
+    </div>
+
+    <button onclick="submitParty()">Submit Party</button>
+
+</div>
+
+<script>
+    function addGroup() {
+        //get container
+        const container = document.getElementById('character-info');
+        
+        //grab firct group to clone
+        const originalGroup = container.querySelector('.form-group');
+        
+        //clone
+        const clonedGroup = originalGroup.cloneNode(true);
+        
+        //clear inputs
+        const inputs = clonedGroup.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+        
+        //append
+        container.appendChild(clonedGroup);
+    }
+
+    function submitParty() {
+        // 1. Grab all the form-group rows
+        const groups = document.querySelectorAll('.form-group');
+        
+        // 2. Create an array to store our structured data objects
+        let partyData = [];
+        let summary = "Illithid Fight Club Roster:\n\n";
+
+        // 3. Loop through each row to grab its specific inputs
+        groups.forEach((group, index) => {
+            // Find the specific inputs inside THIS row
+            // We use querySelector instead of IDs because IDs are no longer unique when cloned
+            const playerInput = group.querySelector('.player input');
+            const levelInput = group.querySelector('.level input');
+
+            const playerCount = playerInput.value || 0;
+            const level = levelInput.value || 0;
+
+            // Save it to our array as a clean data object
+            partyData.push({
+                groupNumber: index + 1,
+                players: parseInt(playerCount),
+                level: parseInt(level)
+            });
+
+            // Build the text summary
+            summary += `Group ${index + 1}: ${playerCount} Players at Level ${level}\n`;
+        });
+        
+        // 4. Do whatever you want with the data! 
+        // You can alert it, log it to the console, or send it to a server.
+        alert(summary);
+        console.log("Full Party Data Array:", partyData);
+    }
+</script>
+
+</body>
+</html>
