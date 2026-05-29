@@ -15,7 +15,7 @@ def generate_agent_response(user_prompt, database_context=None):
     
     # 2. Define the core persona instructions
     system_instruction = (
-        "You are the central AI tactical agent for the CombatCompute platform. "
+        "You are the central AI tactical agent for the Illithid Fight Club platform. "
         "Your job is to assist the user by analyzing system metrics, logs, and data."
     )
     
